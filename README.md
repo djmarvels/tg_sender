@@ -1,2 +1,2 @@
-# tg_sender
+# Telegram Sender
 Скрипт для постинга в Telegram бот

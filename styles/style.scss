@@ -1,0 +1,11 @@
+@import "normalize.css";
+// Element
+@import "element-ui/lib/theme-chalk/index.css";
+// Bases
+@import "fonts";
+@import "interface";
+@import "components";
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+}

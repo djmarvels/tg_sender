@@ -1,5 +1,5 @@
 export default {
-  target: 'static',
+  //target: 'static',
   head: {
     title: 'ShaminingBot',
     meta: [

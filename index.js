@@ -75,4 +75,20 @@ app.post('/send',  async (req, res) => {
     }
 })
 
-app.listen(3000,  () => console.log(`Started server at http://localhost:3000`))
+
+
+app.listen(3000,  () => console.log(`Backend App start at http://localhost:3000`))
+
+
+// Start Nuxt
+const { loadNuxt } = require('nuxt')
+const port = 5000
+const frontendApp = express ()
+async function start() {
+    const nuxt = await loadNuxt('start')
+    frontendApp.use(nuxt.render)
+    frontendApp.listen(port, '0.0.0.0')
+    console.log('Frontend App start at http://`localhost:' + port + '`.')
+}
+
+start()

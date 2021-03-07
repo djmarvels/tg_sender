@@ -36,33 +36,35 @@ export default {
   name: "index",
   methods: {
     async sendPost () {
-      try {
-        await this.uploadImage ()
-        await this.$axios.$post(`${window.location.origin}/api/send`, {
-          text: this.botForm.text,
-          link_text: this.botForm.link_text,
-          link_href: this.botForm.link_href
-        })
-        this.$notify.success({ title: 'Успешно', message: 'Пост опубликован' })
-      } catch (e) {
-        if (e.response.status === 400) {
-          this.$notify.error({ title: 'Ошибка запроса', message: e.response.data.message })
-        } else if (e.response.status === 422) {
-          this.$notify.error({ title: 'Ошибка валидации', message: e.response.data.message })
-        }
-      }
-    },
-    async uploadImage () {
-      if (this.botForm.image_file !== null) {
+      if (!this.botForm.text.length) {
+        this.$notify.error({ title: 'Ошибка валидации', message: 'Заполните поле "Текст"' })
+      } else if (!this.botForm.link_text.length) {
+        this.$notify.error({ title: 'Ошибка валидации', message: 'Заполните поле "Текст ссылки"' })
+      } else if (!this.botForm.link_href.length) {
+        this.$notify.error({ title: 'Ошибка валидации', message: 'Заполните поле "Путь ссылки"' })
+      } else if (this.botForm.image_file == null) {
+        this.$notify.error({ title: 'Ошибка валидации', message: 'Загрузите фотографию для поста' })
+      } else {
         try {
           const chats = await this.$axios.$get(`${window.location.origin}/api/chats`)
           for (const chat_id of chats) {
-            await this.$axios.$post(`https://api.telegram.org/bot1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs/sendPhoto?chat_id=${chat_id}`,  this.botForm.image_file, {
+            await this.$axios.$post(`https://api.telegram.org/bot1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs/sendPhoto`,  this.botForm.image_file, {
               headers: { 'Content-Type': 'multipart/form-data' },
+              params: {
+                chat_id: chat_id,
+                caption: this.botForm.text,
+                reply_markup: {
+                  inline_keyboard: [[{ text: this.botForm.link_text, url: this.botForm.link_href }]]
+                }
+              }
             })
           }
         } catch (e) {
-          console.log(e)
+          if (typeof e.response !== 'undefined') {
+            if (typeof e.response.description !== 'undefined' && typeof e.response.error_code !== 'undefined') {
+              this.$notify.error({ title: 'Ошибка сервера', message: e.response.description })
+            }
+          }
         }
       }
     },

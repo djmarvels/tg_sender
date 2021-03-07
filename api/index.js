@@ -37,48 +37,48 @@ app.get('/chats', (req, res) => {
     res.status(200).json(chats)
 })
 
-app.post('/send',  async (req, res) => {
-    let validFields = [
-        { value: 'link_text', label: 'Текст ссылки' },
-        {value: 'link_href', label: 'Путь ссылки' },
-        {value: 'text', label: 'Текст новости' }
-    ], validation = true
-    for (const field of validFields) {
-        if (typeof req.body[field.value] === 'undefined') {
-            res.status(422).json({
-                message: `Заполните "${field.label}"`
-            })
-            validation = false
-            break;
-        } else if (req.body[field.value].length === 0) {
-            res.status(422).json({
-                message: `Заполните "${field.label}"`
-            })
-            validation = false
-            break;
-        }
-    }
-
-    if (validation) {
-        const chats = require('./chats.json')
-        try {
-            for (const chat_id of chats) {
-                await bot.telegram.sendMessage(chat_id, req.body.text, {
-                    reply_markup: {
-                        inline_keyboard: [[{ text: req.body.link_text, url: req.body.link_href }]]
-                    }
-                })
-            }
-            res.status(200).json ({ send: true })
-        } catch (e) {
-            if (typeof e.response !== 'undefined') {
-                if (typeof e.response.description !== 'undefined' && typeof e.response.error_code !== 'undefined') {
-                    res.status(e.response.error_code).json ({ message: e.response.description })
-                }
-            }
-        }
-
-    }
-})
+// app.post('/send',  async (req, res) => {
+//     let validFields = [
+//         { value: 'link_text', label: 'Текст ссылки' },
+//         {value: 'link_href', label: 'Путь ссылки' },
+//         {value: 'text', label: 'Текст новости' }
+//     ], validation = true
+//     for (const field of validFields) {
+//         if (typeof req.body[field.value] === 'undefined') {
+//             res.status(422).json({
+//                 message: `Заполните "${field.label}"`
+//             })
+//             validation = false
+//             break;
+//         } else if (req.body[field.value].length === 0) {
+//             res.status(422).json({
+//                 message: `Заполните "${field.label}"`
+//             })
+//             validation = false
+//             break;
+//         }
+//     }
+//
+//     if (validation) {
+//         const chats = require('./chats.json')
+//         try {
+//             for (const chat_id of chats) {
+//                 await bot.telegram.sendMessage(chat_id, req.body.text, {
+//                     reply_markup: {
+//                         inline_keyboard: [[{ text: req.body.link_text, url: req.body.link_href }]]
+//                     }
+//                 })
+//             }
+//             res.status(200).json ({ send: true })
+//         } catch (e) {
+//             if (typeof e.response !== 'undefined') {
+//                 if (typeof e.response.description !== 'undefined' && typeof e.response.error_code !== 'undefined') {
+//                     res.status(e.response.error_code).json ({ message: e.response.description })
+//                 }
+//             }
+//         }
+//
+//     }
+// })
 
 module.exports = app

@@ -11,6 +11,9 @@ export default {
     script: [
     ],
   },
+  serverMiddleware: {
+    '/api': '~/api'
+  },
   server: {
     port: 5000
   },

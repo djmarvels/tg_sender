@@ -38,7 +38,7 @@ export default {
     async sendPost () {
       try {
         await this.uploadImage ()
-        await this.$axios.$post('http://localhost:3000/send', {
+        await this.$axios.$post(`${window.location.origin}/api/send`, {
           text: this.botForm.text,
           link_text: this.botForm.link_text,
           link_href: this.botForm.link_href
@@ -55,7 +55,7 @@ export default {
     async uploadImage () {
       if (this.botForm.image_file !== null) {
         try {
-          const chats = await this.$axios.$get('http://localhost:3000/chats')
+          const chats = await this.$axios.$get(`${window.location.origin}/api/chats`)
           for (const chat_id of chats) {
             await this.$axios.$post(`https://api.telegram.org/bot1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs/sendPhoto?chat_id=${chat_id}`,  this.botForm.image_file, {
               headers: { 'Content-Type': 'multipart/form-data' },

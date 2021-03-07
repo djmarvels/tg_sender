@@ -1,18 +1,20 @@
+const express = require('express')
 const bodyParser = require('body-parser')
-const fs = require('fs');
-const formData = require('express-form-data');
+const fs = require('fs')
+const path = require('path')
+const formData = require('express-form-data')
 const { Telegraf } = require('telegraf')
-const express = require ('express')
 
 const bot = new Telegraf ('1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs');
 bot.start((ctx) => {
     const chats = require('./chats.json')
     if (chats.indexOf(ctx.update.message.chat.id) === -1) {
         chats.push(ctx.update.message.chat.id)
-        fs.writeFileSync('chats.json', JSON.stringify(chatsJSON));
+        console.log('writefilesync')
+        fs.writeFileSync(path.resolve(__dirname, 'chats.json'), JSON.stringify(chats));
     }
 })
-bot.launch()
+bot.startPolling()
 
 const app = express()
 app.use((req, res, next) => {
@@ -27,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(formData.parse())
 
 app.get('/', (req, res) => {
-    res.status(200).send('Hello World')
+    res.send('API Nuxt.JS')
 })
 
 app.get('/chats', (req, res) => {
@@ -79,6 +81,4 @@ app.post('/send',  async (req, res) => {
     }
 })
 
-
-
-app.listen(3000,  () => console.log(`Backend App start at http://localhost:3000`))
+module.exports = app

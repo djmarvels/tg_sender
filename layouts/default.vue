@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <navbar :logged="logged" />
+    <navbar />
     <el-main>
       <Nuxt />
     </el-main>
@@ -16,11 +16,6 @@ export default {
   components: {
     navbar,
     basement
-  },
-  computed: {
-    logged () {
-      return (this.$route.name === 'account')
-    }
   }
 }
 </script>

@@ -48,7 +48,7 @@ export default {
         try {
           const chats = await this.$axios.$get(`${window.location.origin}/api/chats`)
           for (const chat_id of chats) {
-            await this.$axios.$post(`https://api.telegram.org/bot1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs/sendPhoto`,  this.botForm.image_file, {
+            await this.$axios.$post(`https://api.telegram.org/bot1674398665:AAEtLUJCv1XADY6weu2WNcow2qKWOhVd104/sendPhoto`,  this.botForm.image_file, {
               headers: { 'Content-Type': 'multipart/form-data' },
               params: {
                 chat_id: chat_id,

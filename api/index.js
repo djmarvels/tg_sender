@@ -5,7 +5,7 @@ const path = require('path')
 const formData = require('express-form-data')
 const { Telegraf } = require('telegraf')
 
-const bot = new Telegraf ('1629253964:AAG3qQ9CHoYT-uiMX75PofKH3gi7xG44kLs');
+const bot = new Telegraf ('1674398665:AAEtLUJCv1XADY6weu2WNcow2qKWOhVd104');
 bot.start((ctx) => {
     const chats = require('./chats.json')
     if (chats.indexOf(ctx.update.message.chat.id) === -1) {

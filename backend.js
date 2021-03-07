@@ -26,6 +26,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(formData.parse())
 
+app.get('/', (req, res) => {
+    res.status(200).send('Hello World')
+})
+
 app.get('/chats', (req, res) => {
     const chats = require('./chats.json')
     res.status(200).json(chats)
